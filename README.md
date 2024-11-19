@@ -12,6 +12,7 @@ This repository contains Docker Compose configurations for my self-hosted servic
 ### Monitoring & Analytics
 - **Grafana + InfluxDB**: Metrics visualization and time-series database
 - **Pi-hole**: Network-wide ad blocking and DNS management
+- **UpTime-Kuma**: A fancy self-hosted monitoring tool
 
 ### Development & Tools
 - **IT-Tools**: Collection of development and admin utilities
