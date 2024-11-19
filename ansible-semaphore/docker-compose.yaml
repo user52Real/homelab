@@ -1,0 +1,41 @@
+volumes:
+  semaphore-postgres:
+    driver: local
+services:
+  postgres:
+    restart: unless-stopped
+    image: postgres:14
+    hostname: postgres
+    volumes: 
+      - /home/user/ansible-semaphore/semaphore-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: semaphore
+      POSTGRES_PASSWORD: CHANGEME #changeit
+      POSTGRES_DB: semaphore
+  semaphore:
+    container_name: ansiblesemaphore
+    image: docker.io/semaphoreui/semaphore:v2.10.11
+    user: 1000:1000
+    ports:
+      - 3009:3000
+    environment:
+      - SEMAPHORE_DB_USER=semaphore
+      - SEMAPHORE_DB_PASS=CHANGEME # changeit
+      - SEMAPHORE_DB_HOST=postgres
+      - SEMAPHORE_DB_PORT=5432
+      - SEMAPHORE_DB_DIALECT=postgres
+      - SEMAPHORE_DB=semaphore
+      - SEMAPHORE_PLAYBOOK_PATH=/tmp/semaphore/
+      - SEMAPHORE_ADMIN_PASSWORD=CHANGEME #changeit
+      - SEMAPHORE_ADMIN_NAME=admin
+      - SEMAPHORE_ADMIN_EMAIL=admin@localhost
+      - SEMAPHORE_ADMIN=admin
+      - SEMAPHORE_ACCESS_KEY_ENCRYPTION= YOUR-ENCRYPTION-KEY
+      - ANSIBLE_HOST_KEY_CHECKING=false 
+    volumes:
+      - /home/user/ansible-semaphore/inventory/:/inventory:ro
+      - /home/user/ansible-semaphore/authorized-keys/:/authorized-keys:ro
+      - /home/user/ansible-semaphore/config/:/etc/semaphore:rw
+    restart: unless-stopped
+    depends_on:
+     - postgres

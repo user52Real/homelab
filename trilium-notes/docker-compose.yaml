@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  trilium:
+    image: zadam/trilium:latest
+    restart: unless-stopped
+    ports:
+      - "8888:8080"
+    volumes:
+      - /home/user/trilium:/home/node/trilium-data
+    environment:
+      PUID: 1000
+      PGID: 1000

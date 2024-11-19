@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  rotki:
+    environment:
+      - TZ=Europe/Amsterdam 
+    image: rotki/rotki:latest
+    ports:
+      - "8191:80" 
+    networks:
+      - rotki-net
+    volumes:
+      - /home/user/docker/rotki/rotki-data:/data
+      - /home/user/docker/rotki/rotki-logs:/logs
+volumes:
+  rotki-data:
+  rotki-logs:
+networks:
+  rotki-net:
